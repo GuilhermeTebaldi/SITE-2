@@ -12,8 +12,22 @@ import {
   FaCodeBranch,
 } from "react-icons/fa";
 
+// Tipagem para props do GlitchText
+type GlitchTextProps = {
+  text: string;
+};
+
+// Tipagem para as páginas
+type PageKey = "home" | "explodir" | "mutar" | "contato" | "realidade";
+
+const GlitchText = ({ text }: GlitchTextProps) => (
+  <h1 className="animate-pulse bg-gradient-to-r from-[#ff00cc] to-[#3333ff] bg-clip-text text-center text-6xl font-extrabold uppercase text-transparent drop-shadow-xl md:text-8xl">
+    {text}
+  </h1>
+);
+
 export default function Home() {
-  const [currentPage, setCurrentPage] = useState("home");
+  const [currentPage, setCurrentPage] = useState<PageKey>("home");
 
   const transitionProps = {
     initial: { opacity: 0, scale: 0.8 },
@@ -22,15 +36,9 @@ export default function Home() {
     transition: { duration: 0.6, ease: "anticipate" },
   };
 
-  const GlitchText = ({ text }) => (
-    <h1 className="animate-pulse bg-gradient-to-r from-[#ff00cc] to-[#3333ff] bg-clip-text text-center text-6xl font-extrabold uppercase text-transparent drop-shadow-xl md:text-8xl">
-      {text}
-    </h1>
-  );
-
   const IconGrid = [FaFireAlt, FaGhost, FaMeteor, FaBolt, FaEye, FaCodeBranch];
 
-  const pages = {
+  const pages: Record<PageKey, JSX.Element> = {
     home: (
       <motion.div key="home" {...transitionProps}>
         <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-[#0f0f0f] px-6 text-center">
@@ -44,7 +52,7 @@ export default function Home() {
             {["Explodir", "Mutar", "Contato", "Realidade"].map((label, i) => (
               <button
                 key={i}
-                onClick={() => setCurrentPage(label.toLowerCase())}
+                onClick={() => setCurrentPage(label.toLowerCase() as PageKey)}
                 className="bg-gradient-to-br from-pink-500 to-indigo-500 px-6 py-3 font-black uppercase tracking-wider text-white shadow-lg transition-all hover:rotate-1 hover:scale-105"
               >
                 {label}
